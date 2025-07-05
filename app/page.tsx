@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -28,40 +30,40 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm px-3">
-        <div className="container mx-auto px-4 py-4">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm">
+        <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
               Central View Point Resort
             </h1>
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden md:flex space-x-10 px-2 ">
               <a
                 href="#home"
-                className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+                className="text-gray-600 hover:text-blue-600 transition-colors font-bold py-2"
               >
                 Home
               </a>
               <a
                 href="#about"
-                className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+                className="text-gray-600 hover:text-blue-600 transition-colors font-bold py-2"
               >
                 About
               </a>
               <a
                 href="#rooms"
-                className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+                className="text-gray-600 hover:text-blue-600 transition-colors font-bold py-2"
               >
                 Rooms
               </a>
               <a
                 href="#amenities"
-                className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+                className="text-gray-600 hover:text-blue-600 transition-colors font-bold py-2"
               >
                 Amenities
               </a>
               <a
                 href="#contact"
-                className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+                className="text-gray-600 hover:text-blue-600 transition-colors font-bold py-2"
               >
                 Contact
               </a>
@@ -88,6 +90,12 @@ export default function HomePage() {
               <Button
                 size="lg"
                 className="px-8 py-4 text-lg bg-blue-600 hover:bg-blue-700 shadow-lg"
+                onClick={() =>
+                  window.open(
+                    "https://www.booking.com/searchresults.html?ss=Central+View+Point+Resort",
+                    "_blank"
+                  )
+                }
               >
                 Book Your Stay
               </Button>
@@ -213,7 +221,15 @@ export default function HomePage() {
                   <span className="text-3xl font-bold text-blue-600">
                     $299<span className="text-lg text-gray-500">/night</span>
                   </span>
-                  <Button className="bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    className="bg-blue-600 hover:bg-blue-700"
+                    onClick={() =>
+                      window.open(
+                        "https://www.booking.com/searchresults.html?ss=Central+View+Point+Resort&room1=A%2CA&sb_travel_purpose=leisure&room_type=deluxe",
+                        "_blank"
+                      )
+                    }
+                  >
                     Book Now
                   </Button>
                 </div>
@@ -258,7 +274,15 @@ export default function HomePage() {
                   <span className="text-3xl font-bold text-blue-600">
                     $449<span className="text-lg text-gray-500">/night</span>
                   </span>
-                  <Button className="bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    className="bg-blue-600 hover:bg-blue-700"
+                    onClick={() =>
+                      window.open(
+                        "https://www.booking.com/searchresults.html?ss=Central+View+Point+Resort&room1=A%2CA%2C2&sb_travel_purpose=leisure&room_type=family_suite",
+                        "_blank"
+                      )
+                    }
+                  >
                     Book Now
                   </Button>
                 </div>
@@ -303,7 +327,15 @@ export default function HomePage() {
                   <span className="text-3xl font-bold text-blue-600">
                     $799<span className="text-lg text-gray-500">/night</span>
                   </span>
-                  <Button className="bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    className="bg-blue-600 hover:bg-blue-700"
+                    onClick={() =>
+                      window.open(
+                        "https://www.booking.com/searchresults.html?ss=Central+View+Point+Resort&room1=A%2CA&sb_travel_purpose=leisure&room_type=presidential_suite",
+                        "_blank"
+                      )
+                    }
+                  >
                     Book Now
                   </Button>
                 </div>
