@@ -1,6 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useRef } from "react";
+import emailjs from "@emailjs/browser";
+import Image from "next/image";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -8,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -24,9 +28,33 @@ import {
   Users,
   Star,
 } from "lucide-react";
-import Image from "next/image";
 
 export default function HomePage() {
+  const form = useRef<HTMLFormElement>(null);
+
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!form.current) return;
+
+    emailjs
+      .sendForm(
+        "service_fn6sugt", // Replace with your EmailJS service ID
+        "template_4nmg78g", // Replace with your EmailJS template ID
+        form.current,
+        "oY9o0PvIv1HBBrb8-" // Replace with your EmailJS public key
+      )
+      .then(
+        () => {
+          alert("Message sent successfully!");
+          form.current?.reset();
+        },
+        (error) => {
+          alert("Failed to send message. Please try again.");
+          console.error(error);
+        }
+      );
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -34,7 +62,7 @@ export default function HomePage() {
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-              Central View Point Resort
+              Centre View Point Agro Resort
             </h1>
             <nav className="hidden md:flex space-x-10 px-2 ">
               <a
@@ -80,11 +108,12 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-              Welcome to Paradise
+              Experience authentic serenity and natural beauty at Centre View
+              Point Agro Resort
             </h2>
             <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Experience luxury and tranquility at Central View Point Resort,
-              where breathtaking views meet exceptional hospitality.
+              where panoramic mountain views meet warm hospitality and peaceful
+              agro surroundings.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -99,20 +128,22 @@ export default function HomePage() {
               >
                 Book Your Stay
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="px-8 py-4 text-lg border-2 hover:bg-gray-50 shadow-lg bg-transparent"
-              >
-                View Gallery
-              </Button>
+              <Link href="/gallery">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="px-8 py-4 text-lg border-2 hover:bg-gray-50 shadow-lg bg-transparent"
+                >
+                  View Gallery
+                </Button>
+              </Link>
             </div>
           </div>
 
           <div className="relative h-96 md:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
             <Image
-              src="/placeholder.svg?height=600&width=1200"
-              alt="Central View Point Resort"
+              src="/about.jpg"
+              alt="Centre View Point Agro Resort"
               fill
               className="object-cover"
             />
@@ -130,16 +161,18 @@ export default function HomePage() {
                 About Our Resort
               </h3>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Nestled in the heart of nature, Central View Point Resort offers
-                an unparalleled escape from the ordinary. Our resort combines
-                modern luxury with natural beauty, providing guests with an
-                unforgettable experience.
+                Nestled in the serene hills of Nagarkot at Kalamashi Height,
+                Centre View Point Agro Resort offers a peaceful escape into
+                nature’s embrace. Blending rustic charm with modern comfort, our
+                resort is designed to reconnect you with the land, the
+                mountains, and yourself.
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                With panoramic views, world-class amenities, and personalized
-                service, we create memories that last a lifetime. Whether you're
-                seeking adventure or relaxation, our resort is your perfect
-                destination.
+                Surrounded by breathtaking Himalayan view, City view and lush
+                agro landscapes, we provide a unique experience rooted in Nepali
+                hospitality. Whether you're here to relax, explore, or immerse
+                yourself in local culture, Centre View Point Agro Resort is your
+                perfect getaway—where every sunrise feels like a new beginning.
               </p>
               <div className="flex items-center space-x-6">
                 <Badge
@@ -153,13 +186,13 @@ export default function HomePage() {
                   variant="secondary"
                   className="px-4 py-2 text-sm bg-green-100 text-green-800"
                 >
-                  Est. 2010
+                  Est. 2024
                 </Badge>
               </div>
             </div>
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/placeholder.svg?height=400&width=600"
+                src="/hero.jpg"
                 alt="Resort view"
                 fill
                 className="object-cover"
@@ -186,14 +219,14 @@ export default function HomePage() {
             <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="relative h-56">
                 <Image
-                  src="/placeholder.svg?height=224&width=400"
-                  alt="Deluxe Room"
+                  src="/rooms/room1.jpg"
+                  alt="Couples Room"
                   fill
                   className="object-cover"
                 />
               </div>
               <CardHeader className="pb-4">
-                <CardTitle className="text-xl">Deluxe Room</CardTitle>
+                <CardTitle className="text-xl">Couples Room</CardTitle>
                 <CardDescription className="text-base">
                   Perfect for couples seeking comfort and elegance
                 </CardDescription>
@@ -202,24 +235,25 @@ export default function HomePage() {
                 <ul className="text-gray-600 space-y-2 mb-6">
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    King-size bed
+                    King-Sized Bed
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Mountain view
+                    Appealing Valley View
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Private balcony
+                    Private Balcony
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Modern amenities
+                    Modern Amenities
                   </li>
                 </ul>
                 <div className="flex items-center justify-between">
                   <span className="text-3xl font-bold text-blue-600">
-                    $299<span className="text-lg text-gray-500">/night</span>
+                    Rs. 3500
+                    <span className="text-lg text-gray-500">/night</span>
                   </span>
                   <Button
                     className="bg-blue-600 hover:bg-blue-700"
@@ -239,7 +273,7 @@ export default function HomePage() {
             <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="relative h-56">
                 <Image
-                  src="/placeholder.svg?height=224&width=400"
+                  src="/rooms/room3.jpg"
                   alt="Family Suite"
                   fill
                   className="object-cover"
@@ -248,31 +282,33 @@ export default function HomePage() {
               <CardHeader className="pb-4">
                 <CardTitle className="text-xl">Family Suite</CardTitle>
                 <CardDescription className="text-base">
-                  Spacious accommodation for families
+                  Spacious accommodation for families looking to relax and
+                  reconnect
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-gray-600 space-y-2 mb-6">
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Two bedrooms
+                    Two Large-Sized Beds
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Living area
+                    Scenic Mountain & Forest Views
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Kitchenette
+                    Cozy Seating
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Garden view
+                    Modern Amenities
                   </li>
                 </ul>
                 <div className="flex items-center justify-between">
                   <span className="text-3xl font-bold text-blue-600">
-                    $449<span className="text-lg text-gray-500">/night</span>
+                    Rs. 4800
+                    <span className="text-lg text-gray-500">/night</span>
                   </span>
                   <Button
                     className="bg-blue-600 hover:bg-blue-700"
@@ -292,40 +328,41 @@ export default function HomePage() {
             <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="relative h-56">
                 <Image
-                  src="/placeholder.svg?height=224&width=400"
-                  alt="Presidential Suite"
+                  src="/rooms/room2.jpg"
+                  alt="Group Room"
                   fill
                   className="object-cover"
                 />
               </div>
               <CardHeader className="pb-4">
-                <CardTitle className="text-xl">Presidential Suite</CardTitle>
+                <CardTitle className="text-xl">Group Room</CardTitle>
                 <CardDescription className="text-base">
-                  Ultimate luxury with panoramic views
+                  Ideal for groups of friends or trekkers
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-gray-600 space-y-2 mb-6">
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Master bedroom
+                    Four Comfortable Beds
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Private terrace
+                    Private Terrace with View
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Jacuzzi
+                    Shared Lounge Space
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Butler service
+                    Bonfire Area Access
                   </li>
                 </ul>
                 <div className="flex items-center justify-between">
                   <span className="text-3xl font-bold text-blue-600">
-                    $799<span className="text-lg text-gray-500">/night</span>
+                    Rs. 5500
+                    <span className="text-lg text-gray-500">/night</span>
                   </span>
                   <Button
                     className="bg-blue-600 hover:bg-blue-700"
@@ -353,19 +390,21 @@ export default function HomePage() {
               Resort Amenities
             </h3>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Enjoy our comprehensive range of facilities designed to make your
-              stay memorable.
+              Enjoy our thoughtfully curated amenities designed to make your
+              stay relaxing, comfortable, and truly memorable:
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Waves className="w-8 h-8 text-blue-600" />
+                <Mountain className="w-8 h-8 text-blue-600" />
               </div>
-              <h4 className="text-xl font-semibold mb-3">Swimming Pool</h4>
+              <h4 className="text-xl font-semibold mb-3">
+                Panoramic Mountain & Valley Views
+              </h4>
               <p className="text-gray-600 leading-relaxed">
-                Olympic-size pool with poolside service
+                Enjoy breathtaking vistas from various points.
               </p>
             </Card>
 
@@ -373,29 +412,11 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Utensils className="w-8 h-8 text-green-600" />
               </div>
-              <h4 className="text-xl font-semibold mb-3">Fine Dining</h4>
+              <h4 className="text-xl font-semibold mb-3">
+                Organic Farm-to-Table Dining
+              </h4>
               <p className="text-gray-600 leading-relaxed">
-                Multiple restaurants with international cuisine
-              </p>
-            </Card>
-
-            <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Dumbbell className="w-8 h-8 text-red-600" />
-              </div>
-              <h4 className="text-xl font-semibold mb-3">Fitness Center</h4>
-              <p className="text-gray-600 leading-relaxed">
-                State-of-the-art gym equipment
-              </p>
-            </Card>
-
-            <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Mountain className="w-8 h-8 text-purple-600" />
-              </div>
-              <h4 className="text-xl font-semibold mb-3">Spa & Wellness</h4>
-              <p className="text-gray-600 leading-relaxed">
-                Relaxing treatments and therapies
+                Savor fresh, local, and organic meals.
               </p>
             </Card>
 
@@ -403,29 +424,9 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Wifi className="w-8 h-8 text-orange-600" />
               </div>
-              <h4 className="text-xl font-semibold mb-3">Free WiFi</h4>
+              <h4 className="text-xl font-semibold mb-3">Free Wi-Fi Access</h4>
               <p className="text-gray-600 leading-relaxed">
-                High-speed internet throughout the resort
-              </p>
-            </Card>
-
-            <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Car className="w-8 h-8 text-gray-600" />
-              </div>
-              <h4 className="text-xl font-semibold mb-3">Parking</h4>
-              <p className="text-gray-600 leading-relaxed">
-                Complimentary valet parking service
-              </p>
-            </Card>
-
-            <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
-              <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="w-8 h-8 text-indigo-600" />
-              </div>
-              <h4 className="text-xl font-semibold mb-3">Event Spaces</h4>
-              <p className="text-gray-600 leading-relaxed">
-                Perfect venues for weddings and conferences
+                Stay connected throughout your stay.
               </p>
             </Card>
 
@@ -433,9 +434,57 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Coffee className="w-8 h-8 text-amber-600" />
               </div>
-              <h4 className="text-xl font-semibold mb-3">24/7 Service</h4>
+              <h4 className="text-xl font-semibold mb-3">Room Service</h4>
               <p className="text-gray-600 leading-relaxed">
-                Round-the-clock room service and concierge
+                Enjoy convenience delivered to your door.
+              </p>
+            </Card>
+
+            <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Mountain className="w-8 h-8 text-purple-600" />
+              </div>
+              <h4 className="text-xl font-semibold mb-3">
+                Private Balconies & Terraces
+              </h4>
+              <p className="text-gray-600 leading-relaxed">
+                Relax with your own personal view.
+              </p>
+            </Card>
+
+            <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Dumbbell className="w-8 h-8 text-red-600" />{" "}
+                {/* Reusing Dumbbell for Bonfire, can be replaced */}
+              </div>
+              <h4 className="text-xl font-semibold mb-3">Bonfire & BBQ Area</h4>
+              <p className="text-gray-600 leading-relaxed">
+                Enjoy cozy evenings under the stars.
+              </p>
+            </Card>
+
+            <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
+              <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Users className="w-8 h-8 text-indigo-600" />{" "}
+                {/* Reusing Users for Nature Walks, can be replaced */}
+              </div>
+              <h4 className="text-xl font-semibold mb-3">
+                Guided Nature Walks & Hiking Trails
+              </h4>
+              <p className="text-gray-600 leading-relaxed">
+                Explore the natural surroundings with expert guides.
+              </p>
+            </Card>
+
+            <Card className="text-center p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-0">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Car className="w-8 h-8 text-gray-600" />
+              </div>
+              <h4 className="text-xl font-semibold mb-3">
+                Ample Parking Space
+              </h4>
+              <p className="text-gray-600 leading-relaxed">
+                Secure parking for your convenience.
               </p>
             </Card>
           </div>
@@ -515,48 +564,62 @@ export default function HomePage() {
                   We'll get back to you within 24 hours
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+
+              <CardContent>
+                <form ref={form} onSubmit={sendEmail} className="space-y-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        First Name
+                      </label>
+                      <input
+                        type="text"
+                        name="first_name"
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        name="last_name"
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
                   <div>
                     <label className="text-sm font-medium text-gray-700 mb-2 block">
-                      First Name
+                      Email
                     </label>
                     <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      type="email"
+                      name="user_email"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-700 mb-2 block">
-                      Last Name
+                      Message
                     </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
+                    <textarea
+                      name="message"
+                      rows={5}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    ></textarea>
                   </div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">
-                    Message
-                  </label>
-                  <textarea
-                    rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                  ></textarea>
-                </div>
-                <Button className="w-full py-3 text-lg bg-blue-600 hover:bg-blue-700">
-                  Send Message
-                </Button>
+                  <Button
+                    type="submit"
+                    className="w-full py-3 text-lg bg-blue-600 hover:bg-blue-700"
+                  >
+                    Send Message
+                  </Button>
+                </form>
               </CardContent>
             </Card>
           </div>
@@ -568,10 +631,10 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center">
             <h4 className="text-2xl font-bold mb-4">
-              Central View Point Resort
+              Centre View Point Agro Resort
             </h4>
             <p className="text-gray-400 mb-4">
-              Creating unforgettable memories since 2010
+              Creating unforgettable memories since 2024
             </p>
             <div className="flex justify-center space-x-6">
               <a href="#" className="text-gray-400 hover:text-white">
@@ -586,7 +649,7 @@ export default function HomePage() {
             </div>
             <Separator className="my-6 bg-gray-700" />
             <p className="text-gray-400 text-sm">
-              © 2024 Central View Point Resort. All rights reserved.
+              © 2024 Centre View Point Agro Resort. All rights reserved.
             </p>
           </div>
         </div>
