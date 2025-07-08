@@ -32,28 +32,56 @@ import {
 export default function HomePage() {
   const form = useRef<HTMLFormElement>(null);
 
-  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!form.current) return;
+  // const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (!form.current) return;
 
-    emailjs
-      .sendForm(
-        "service_fn6sugt", // Replace with your EmailJS service ID
-        "template_4nmg78g", // Replace with your EmailJS template ID
-        form.current,
-        "oY9o0PvIv1HBBrb8-" // Replace with your EmailJS public key
-      )
-      .then(
-        () => {
-          alert("Message sent successfully!");
-          form.current?.reset();
-        },
-        (error) => {
-          alert("Failed to send message. Please try again.");
-          console.error(error);
-        }
-      );
+  //   emailjs
+  //     .sendForm(
+  //       "service_fn6sugt", // Replace with your EmailJS service ID
+  //       "template_4nmg78g", // Replace with your EmailJS template ID
+  //       form.current,
+  //       "oY9o0PvIv1HBBrb8-" // Replace with your EmailJS public key
+  //     )
+  //     .then(
+  //       () => {
+  //         alert("Message sent successfully!");
+  //         form.current?.reset();
+  //       },
+  //       (error) => {
+  //         alert("Failed to send message. Please try again.");
+  //         console.error(error);
+  //       }
+  //     );
+  // };
+  const sendEmail = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const formEl = form.current;
+  if (!formEl) return;
+
+  const templateParams = {
+    first_name: formEl["first_name"].value,
+    last_name: formEl["last_name"].value,
+    user_email: formEl["user_email"].value,
+    message: formEl["message"].value,
   };
+
+  try {
+    await emailjs.send(
+      "service_2ttt8mm",        // e.g., "service_xxx"
+      "template_c8jirtu",       // e.g., "template_xxx"
+      templateParams,
+      "-rwsQkdowRRxBoy1s"         // e.g., "user_xxx"
+    );
+    alert("Message sent successfully!");
+    formEl.reset();
+  } catch (error) {
+    console.error("Email sending failed:", error);
+    alert("Failed to send message.");
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-white">
